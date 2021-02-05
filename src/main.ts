@@ -11,9 +11,9 @@ export async function run() {
     core.info(`Setup buf version spec ${versionSpec}`);
     const installDir = await installer.getBuf(versionSpec);
 
-    core.info("Adding buf binary to PATH")
+    core.info('Adding buf binary to PATH');
     await addBinToPath(installDir);
-    
+
     core.info(`Successfully setup buf version ${versionSpec}`);
     core.info(cp.execSync(`${await io.which('buf')} --version`).toString());
   } catch (error) {

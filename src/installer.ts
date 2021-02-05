@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
 import * as tc from '@actions/tool-cache';
-import { Octokit } from '@octokit/core';
+import {Octokit} from '@octokit/core';
 import path from 'path';
 import * as semver from 'semver';
 import * as sys from './system';
@@ -15,7 +15,9 @@ export async function getBuf(versionSpec: string) {
     return toolPath;
   }
 
-  core.info(`Checking if ${versionSpec} exists on the current platform and architecture...`);
+  core.info(
+    `Checking if ${versionSpec} exists on the current platform and architecture...`
+  );
   const dlUrl = await getDownloadLink(versionSpec);
 
   core.info(`Acquiring ${versionSpec} from ${dlUrl}`);
@@ -26,7 +28,12 @@ export async function getBuf(versionSpec: string) {
   core.info(`Successfully extracted buf to ${extPath}`);
 
   core.info('Adding to the cache ...');
-  const cachedDir = await tc.cacheDir(path.join(extPath, "buf"), 'buf', versionSpec, sys.getArch());
+  const cachedDir = await tc.cacheDir(
+    path.join(extPath, 'buf'),
+    'buf',
+    versionSpec,
+    sys.getArch()
+  );
 
   core.info(`Successfully cached buf to ${cachedDir}`);
   return cachedDir;
@@ -58,10 +65,13 @@ export async function getDownloadLink(versionSpec: string): Promise<string> {
         `Unable to find Buf version '${versionSpec}' for platform ${sysPlat} and architecture ${sysArch}.`
       );
   }
-  const { data: releases } = await octokit.request('GET /repos/{owner}/{repo}/releases', {
-    owner: 'bufbuild',
-    repo: 'buf',
-  });
+  const {data: releases} = await octokit.request(
+    'GET /repos/{owner}/{repo}/releases',
+    {
+      owner: 'bufbuild',
+      repo: 'buf'
+    }
+  );
   switch (versionSpec) {
     case 'latest':
       for (const asset of releases[0].assets) {
