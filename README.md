@@ -46,8 +46,7 @@ jobs:
     name: Buf ${{ matrix.buf }} sample
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Buf
-      - uses: mu-io/setup-buf@v1
+      - uses: mu-io/setup-buf@v1.0.0-beta
         with:
           buf-version: ${{ matrix.buf }}
       - run: buf generate
