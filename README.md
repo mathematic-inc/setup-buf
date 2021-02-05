@@ -13,7 +13,7 @@ Matching by semver spec:
 ```yaml
 steps:
 - uses: actions/checkout@v2
-- uses: mu-io/setup-buf@v1
+- uses: mu-io/setup-buf@v1.0.0-beta
   with:
     buf-version: '0.36.0' # The Buf version to download (if necessary) and use.
 - run: buf --version
@@ -28,7 +28,7 @@ Basic:
 ```yaml
 steps:
 - uses: actions/checkout@master
-- uses: mu-io/setup-buf@v1
+- uses: mu-io/setup-buf@v1.0.0-beta
   with:
     buf-version: '0.36.0' # The Buf version to download (if necessary) and use.
 - run: buf generate
