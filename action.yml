@@ -1,5 +1,5 @@
-name: 'Setup Buf binary'
-description: 'Setup a Buf binary and add it to the PATH'
+name: 'Setup Buf'
+description: 'Setup Buf and add it to the PATH'
 author: 'mu-io'
 inputs: 
   buf-version:
