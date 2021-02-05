@@ -1,0 +1,18 @@
+name: Licensed
+
+on:
+  push: {branches: [main]}
+  pull_request: {branches: [main]}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Check licenses
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn install --frozen-lockfile
+      - name: Setup licensed
+        uses: jonabc/setup-licensed@v1
+        with:
+          version: 2.x
+      - run: licensed status

@@ -1,0 +1,34 @@
+name: Validate 'setup-buf'
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  schedule:
+    - cron: 0 0 * * *
+
+jobs:
+  setup-test:
+    name: Setup ${{ matrix.buf }} ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+        buf: [0.36.0,0.35.1,0.34.0]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: setup-buf ${{ matrix.buf }}
+        uses: ./
+        with:
+          buf-version: ${{ matrix.buf }}
+
+      - name: verify buf
+        run: test/verify-buf.sh ${{ matrix.buf }}
+        shell: bash

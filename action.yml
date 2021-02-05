@@ -1,0 +1,10 @@
+name: 'Setup Buf binary'
+description: 'Setup a Buf binary and add it to the PATH'
+author: 'mu-io'
+inputs: 
+  buf-version:
+    required: false
+    description: 'The Buf version to download (if necessary) and use. Supports semver spec and ranges.'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

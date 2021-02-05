@@ -1,0 +1,54 @@
+{
+  "name": "setup-buf",
+  "version": "1.0.0",
+  "description": "setup buf action",
+  "main": "lib/setup-buf.js",
+  "repository": "https://github.com/mu-io/setup-buf.git",
+  "author": "mu-io",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc && ncc build",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "test": "jest --coverage",
+    "pre-checkin": "yarn format && yarn build && yarn test"
+  },
+	"husky": {
+		"hooks": {
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+		}
+	},
+	"commitlint": {
+		"extends": [
+			"@commitlint/config-conventional"
+		]
+	},
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/io": "^1.0.2",
+    "@actions/tool-cache": "^1.6.1",
+    "@octokit/core": "^3.2.5",
+    "semver": "^7.3.4"
+  },
+  "keywords": [
+    "actions",
+    "buf",
+    "setup"
+  ],
+  "devDependencies": {
+		"@commitlint/cli": "^11.0.0",
+		"@commitlint/config-conventional": "^11.0.0",
+    "@changesets/cli": "^2.14.0",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.25",
+    "@types/semver": "^7.3.4",
+    "@zeit/ncc": "^0.21.0",
+    "jest": "^26.6.3",
+		"husky": "^4.3.8",
+    "jest-circus": "^26.6.3",
+    "nock": "^13.0.7",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.5.0",
+    "typescript": "^4.1.3"
+  }
+}
