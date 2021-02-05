@@ -16,7 +16,7 @@ jobs:
     name: Setup ${{ matrix.buf }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
+      max-parallel: 3
       matrix:
         os: [macos-latest, ubuntu-latest]
         buf: [0.36.0,0.35.1,0.34.0]
@@ -28,8 +28,6 @@ jobs:
         uses: ./
         with:
           buf-version: ${{ matrix.buf }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: verify buf
         run: tests/verify-buf.sh ${{ matrix.buf }}
