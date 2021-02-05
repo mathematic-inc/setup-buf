@@ -24,6 +24,7 @@ steps:
 See [action.yml](action.yml)
 
 > Note: We reserve the `buf-version` `latest` for the latest release. Hence to obtain the latest release, just use `latest`.
+> At this time, it is recommended to fix a version as Buf is still in pre-release.
 
 Basic:
 
