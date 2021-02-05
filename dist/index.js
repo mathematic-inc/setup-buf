@@ -2704,7 +2704,7 @@ function run() {
             let versionSpec = core.getInput('buf-version') || 'latest';
             core.info(`Setup buf version spec ${versionSpec}`);
             const installDir = yield installer.getBuf(versionSpec);
-            core.info("Adding buf binary to PATH");
+            core.info('Adding buf binary to PATH');
             yield addBinToPath(installDir);
             core.info(`Successfully setup buf version ${versionSpec}`);
             core.info(child_process_1.default.execSync(`${yield io.which('buf')} --version`).toString());
@@ -9961,7 +9961,7 @@ function getBuf(versionSpec) {
         let extPath = yield tc.extractTar(downloadPath);
         core.info(`Successfully extracted buf to ${extPath}`);
         core.info('Adding to the cache ...');
-        const cachedDir = yield tc.cacheDir(path_1.default.join(extPath, "buf"), 'buf', versionSpec, sys.getArch());
+        const cachedDir = yield tc.cacheDir(path_1.default.join(extPath, 'buf'), 'buf', versionSpec, sys.getArch());
         core.info(`Successfully cached buf to ${cachedDir}`);
         return cachedDir;
     });
@@ -9992,7 +9992,7 @@ function getDownloadLink(versionSpec) {
         }
         const { data: releases } = yield octokit.request('GET /repos/{owner}/{repo}/releases', {
             owner: 'bufbuild',
-            repo: 'buf',
+            repo: 'buf'
         });
         switch (versionSpec) {
             case 'latest':
