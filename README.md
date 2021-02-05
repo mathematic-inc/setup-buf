@@ -23,6 +23,8 @@ steps:
 
 See [action.yml](action.yml)
 
+> Note: We reserve the `buf-version` `latest` for the latest release. Hence to obtain the latest release, just use `latest`.
+
 Basic:
 
 ```yaml
