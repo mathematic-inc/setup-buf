@@ -30,5 +30,5 @@ jobs:
           buf-version: ${{ matrix.buf }}
 
       - name: verify buf
-        run: test/verify-buf.sh ${{ matrix.buf }}
+        run: tests/verify-buf.sh ${{ matrix.buf }}
         shell: bash
