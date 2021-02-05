@@ -28,6 +28,8 @@ jobs:
         uses: ./
         with:
           buf-version: ${{ matrix.buf }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: verify buf
         run: tests/verify-buf.sh ${{ matrix.buf }}
