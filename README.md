@@ -1,10 +1,6 @@
 # setup-buf
 
-<p align="left">
-  <a href="https://github.com/mu-io/setup-buf/actions">
-    <img alt="versions status" src="https://github.com/mu-io/setup-buf/workflows/buf-versions/badge.svg">
-  </a>  
-</p>
+![setup-buf](https://github.com/mu-io/setup-buf/workflows/CD/badge.svg)
 
 This action sets up a buf environment for use in actions by:
 
