@@ -1,4 +1,4 @@
-name: Validate 'setup-buf'
+name: CD
 on:
   push:
     branches:
