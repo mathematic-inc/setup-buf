@@ -3,7 +3,7 @@ name: "@actions/http-client"
 version: 1.0.9
 type: yarn
 homepage: git+https://github.com/actions/http-client.git
-license: other
+license: mit
 licenses:
 - sources: LICENSE
   text: |
