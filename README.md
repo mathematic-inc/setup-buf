@@ -16,6 +16,7 @@ steps:
 - uses: mu-io/setup-buf@v1beta
   with:
     buf-version: '0.36.0' # The Buf version to download (if necessary) and use.
+    token: ${{ secrets.GITHUB_TOKEN }} # Default token in GitHub Action to wave API request limits
 - run: buf --version
 ```
 
@@ -52,6 +53,7 @@ jobs:
       - uses: mu-io/setup-buf@v1beta
         with:
           buf-version: ${{ matrix.buf }}
+          token: ${{ secrets.GITHUB_TOKEN }} # Default token in GitHub Action to wave API request limits
       - run: buf generate
 ```
 

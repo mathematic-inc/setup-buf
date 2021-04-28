@@ -27,6 +27,7 @@ jobs:
       - name: setup-buf ${{ matrix.buf }}
         uses: ./
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           buf-version: ${{ matrix.buf }}
 
       - name: verify buf

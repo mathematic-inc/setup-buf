@@ -7,9 +7,10 @@ import * as installer from './installer';
 export async function run() {
   try {
     let versionSpec = core.getInput('buf-version') || 'latest';
+    let ghAuthToken = core.getInput('token');
 
     core.info(`Setup buf version spec ${versionSpec}`);
-    const installDir = await installer.getBuf(versionSpec);
+    const installDir = await installer.getBuf(versionSpec, ghAuthToken);
 
     core.info('Adding buf binary to PATH');
     await addBinToPath(installDir);
