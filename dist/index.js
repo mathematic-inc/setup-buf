@@ -340,52 +340,6 @@ function copyFile(srcFile, destFile, force) {
 
 /***/ }),
 
-/***/ 3:
-/***/ (function(__unusedmodule, exports) {
-
-"use strict";
-
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/*!
- * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
- *
- * Copyright (c) 2014-2017, Jon Schlinkert.
- * Released under the MIT License.
- */
-
-function isObject(o) {
-  return Object.prototype.toString.call(o) === '[object Object]';
-}
-
-function isPlainObject(o) {
-  var ctor,prot;
-
-  if (isObject(o) === false) return false;
-
-  // If has modified constructor
-  ctor = o.constructor;
-  if (ctor === undefined) return true;
-
-  // If has modified prototype
-  prot = ctor.prototype;
-  if (isObject(prot) === false) return false;
-
-  // If constructor does not have an Object-specific method
-  if (prot.hasOwnProperty('isPrototypeOf') === false) {
-    return false;
-  }
-
-  // Most likely a plain Object
-  return true;
-}
-
-exports.isPlainObject = isPlainObject;
-
-
-/***/ }),
-
 /***/ 9:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
@@ -2702,8 +2656,9 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let versionSpec = core.getInput('buf-version') || 'latest';
+            let ghAuthToken = core.getInput('token');
             core.info(`Setup buf version spec ${versionSpec}`);
-            const installDir = yield installer.getBuf(versionSpec);
+            const installDir = yield installer.getBuf(versionSpec, ghAuthToken);
             core.info('Adding buf binary to PATH');
             yield addBinToPath(installDir);
             core.info(`Successfully setup buf version ${versionSpec}`);
@@ -2850,6 +2805,52 @@ module.exports = ltr
 
 /***/ }),
 
+/***/ 356:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/*!
+ * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+function isObject(o) {
+  return Object.prototype.toString.call(o) === '[object Object]';
+}
+
+function isPlainObject(o) {
+  var ctor,prot;
+
+  if (isObject(o) === false) return false;
+
+  // If has modified constructor
+  ctor = o.constructor;
+  if (ctor === undefined) return true;
+
+  // If has modified prototype
+  prot = ctor.prototype;
+  if (isObject(prot) === false) return false;
+
+  // If constructor does not have an Object-specific method
+  if (prot.hasOwnProperty('isPrototypeOf') === false) {
+    return false;
+  }
+
+  // Most likely a plain Object
+  return true;
+}
+
+exports.isPlainObject = isPlainObject;
+
+
+/***/ }),
+
 /***/ 357:
 /***/ (function(module) {
 
@@ -2865,7 +2866,7 @@ module.exports = require("assert");
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var isPlainObject = __webpack_require__(3);
+var isPlainObject = __webpack_require__(356);
 var universalUserAgent = __webpack_require__(796);
 
 function lowercaseKeys(object) {
@@ -9383,52 +9384,6 @@ exports.Deprecation = Deprecation;
 
 /***/ }),
 
-/***/ 701:
-/***/ (function(__unusedmodule, exports) {
-
-"use strict";
-
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/*!
- * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
- *
- * Copyright (c) 2014-2017, Jon Schlinkert.
- * Released under the MIT License.
- */
-
-function isObject(o) {
-  return Object.prototype.toString.call(o) === '[object Object]';
-}
-
-function isPlainObject(o) {
-  var ctor,prot;
-
-  if (isObject(o) === false) return false;
-
-  // If has modified constructor
-  ctor = o.constructor;
-  if (ctor === undefined) return true;
-
-  // If has modified prototype
-  prot = ctor.prototype;
-  if (isObject(prot) === false) return false;
-
-  // If constructor does not have an Object-specific method
-  if (prot.hasOwnProperty('isPrototypeOf') === false) {
-    return false;
-  }
-
-  // Most likely a plain Object
-  return true;
-}
-
-exports.isPlainObject = isPlainObject;
-
-
-/***/ }),
-
 /***/ 702:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -9944,8 +9899,7 @@ const core_1 = __webpack_require__(448);
 const path_1 = __importDefault(__webpack_require__(622));
 const semver = __importStar(__webpack_require__(876));
 const sys = __importStar(__webpack_require__(737));
-const octokit = new core_1.Octokit();
-function getBuf(versionSpec) {
+function getBuf(versionSpec, ghAuthToken) {
     return __awaiter(this, void 0, void 0, function* () {
         let toolPath;
         toolPath = tc.find('buf', versionSpec, sys.getArch());
@@ -9954,7 +9908,7 @@ function getBuf(versionSpec) {
             return toolPath;
         }
         core.info(`Checking if ${versionSpec} exists on the current platform and architecture...`);
-        const dlUrl = yield getDownloadLink(versionSpec);
+        const dlUrl = yield getDownloadLink(versionSpec, ghAuthToken);
         core.info(`Acquiring ${versionSpec} from ${dlUrl}`);
         const downloadPath = yield tc.downloadTool(dlUrl);
         core.info('Extracting Buf...');
@@ -9967,7 +9921,7 @@ function getBuf(versionSpec) {
     });
 }
 exports.getBuf = getBuf;
-function getDownloadLink(versionSpec) {
+function getDownloadLink(versionSpec, ghAuthToken) {
     return __awaiter(this, void 0, void 0, function* () {
         const sysArch = sys.getArch();
         const sysPlat = sys.getPlatform();
@@ -9990,6 +9944,9 @@ function getDownloadLink(versionSpec) {
             default:
                 throw new Error(`Unable to find Buf version '${versionSpec}' for platform ${sysPlat} and architecture ${sysArch}.`);
         }
+        const octokit = new core_1.Octokit({
+            auth: ghAuthToken
+        });
         const { data: releases } = yield octokit.request('GET /repos/{owner}/{repo}/releases', {
             owner: 'bufbuild',
             repo: 'buf'
@@ -10105,7 +10062,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var endpoint = __webpack_require__(385);
 var universalUserAgent = __webpack_require__(796);
-var isPlainObject = __webpack_require__(701);
+var isPlainObject = __webpack_require__(356);
 var nodeFetch = _interopDefault(__webpack_require__(454));
 var requestError = __webpack_require__(463);
 

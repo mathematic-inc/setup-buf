@@ -5,9 +5,10 @@ import path from 'path';
 import * as semver from 'semver';
 import * as sys from './system';
 
-const octokit = new Octokit();
-
-export async function getBuf(versionSpec: string) {
+export async function getBuf(
+  versionSpec: string,
+  ghAuthToken: string | undefined
+) {
   let toolPath: string;
   toolPath = tc.find('buf', versionSpec, sys.getArch());
   if (toolPath) {
@@ -18,7 +19,7 @@ export async function getBuf(versionSpec: string) {
   core.info(
     `Checking if ${versionSpec} exists on the current platform and architecture...`
   );
-  const dlUrl = await getDownloadLink(versionSpec);
+  const dlUrl = await getDownloadLink(versionSpec, ghAuthToken);
 
   core.info(`Acquiring ${versionSpec} from ${dlUrl}`);
   const downloadPath = await tc.downloadTool(dlUrl);
@@ -39,7 +40,10 @@ export async function getBuf(versionSpec: string) {
   return cachedDir;
 }
 
-export async function getDownloadLink(versionSpec: string): Promise<string> {
+export async function getDownloadLink(
+  versionSpec: string,
+  ghAuthToken: string | undefined
+): Promise<string> {
   const sysArch = sys.getArch();
   const sysPlat = sys.getPlatform();
   let archFilter: string;
@@ -65,6 +69,9 @@ export async function getDownloadLink(versionSpec: string): Promise<string> {
         `Unable to find Buf version '${versionSpec}' for platform ${sysPlat} and architecture ${sysArch}.`
       );
   }
+  const octokit = new Octokit({
+    auth: ghAuthToken
+  });
   const {data: releases} = await octokit.request(
     'GET /repos/{owner}/{repo}/releases',
     {
